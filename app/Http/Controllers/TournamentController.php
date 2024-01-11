@@ -27,6 +27,7 @@ class TournamentController extends Controller
             'rounds' => 'required|integer|min:1',
             'start_date' => 'required|date',
             'max_decks_per_user' => 'required|integer|min:1',
+            'photo_url' => 'required|url',
         ]);
 
         $tournament = new Tournament([
@@ -34,6 +35,7 @@ class TournamentController extends Controller
             'rounds' => $request->rounds,
             'start_date' => $request->start_date,
             'max_decks_per_user' => $request->max_decks_per_user,
+            'photo_url' => $request->photo_url,
         ]);
 
         $tournament->user_id = auth()->user()->id;

@@ -16,6 +16,11 @@
                                 <input type="number" id="rounds" name="rounds" required class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-blue-500" />
                             </div>
                             <div class="mb-4">
+                                <label for="photo_url" class="block text-lg text-gray-700 dark:text-gray-300">URL da Foto do Torneio:</label>
+                                <input type="text" id="photo_url" name="photo_url" required class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-blue-500" />
+                            </div>
+
+                            <div class="mb-4">
                                 <label for="start_date" class="block text-lg text-gray-700 dark:text-gray-300">Data de Início:</label>
                                 <input type="datetime-local" id="start_date" name="start_date" required class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-blue-500" />
                             </div>

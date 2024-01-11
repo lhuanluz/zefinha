@@ -229,13 +229,20 @@ class DeckController extends Controller
         $dadosCarta = [];
 //        dd($data);
         if (isset($data['card_faces'])) {
-            $dadosCarta['nome'] = $data['card_faces'][0]['name'];
-            $dadosCarta['imagem'] = $data['card_faces'][0]['image_uris']['border_crop'];
-            $dadosCarta['mana_cost'] = $data['card_faces'][0]['mana_cost'];
-            $dadosCarta['type_line'] = $data['card_faces'][0]['type_line'];
+            if ($data['layout'] == 'adventure'){
+                $dadosCarta['nome'] = $data['name'];
+                $dadosCarta['imagem'] = $data['image_uris']['normal'];
+                $dadosCarta['mana_cost'] = $data['mana_cost'];
+                $dadosCarta['type_line'] = $data['type_line'];
+            }else{
+                $dadosCarta['nome'] = $data['card_faces'][0]['name'];
+                $dadosCarta['imagem'] = $data['card_faces'][0]['image_uris']['normal'];
+                $dadosCarta['mana_cost'] = $data['card_faces'][0]['mana_cost'];
+                $dadosCarta['type_line'] = $data['card_faces'][0]['type_line'];
+            }
         } elseif (isset($data['name'])) {
             $dadosCarta['nome'] = $data['name'];
-            $dadosCarta['imagem'] = $data['image_uris']['border_crop'];
+            $dadosCarta['imagem'] = $data['image_uris']['normal'];
             $dadosCarta['mana_cost'] = $data['mana_cost'];
             $dadosCarta['type_line'] = $data['type_line'];
         }

@@ -16,6 +16,7 @@ class Tournament extends Model
         'status',
         'max_decks_per_user',
         'user_id',
+        'photo_url'
     ];
 
     protected $dates = [

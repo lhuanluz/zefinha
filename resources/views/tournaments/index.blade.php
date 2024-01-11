@@ -16,8 +16,9 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             @foreach($tournaments as $tournament)
                             <div class="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg tournament-card">
-                                <a href="{{ route('tournaments.show', $tournament) }}"> <!-- Link para ver detalhes -->
-                                    <!-- Conteúdo do torneio, como nome, participantes, etc. -->
+                                <a href="{{ route('tournaments.show', $tournament) }}">
+                                    <!-- Adicionar a imagem como capa do card -->
+                                    <img src="{{ $tournament->photo_url }}" alt="{{ $tournament->name }}" class="w-full h-32 object-cover">
                                 </a>
                                 <div class="p-6"> <!-- Aumentado o padding aqui -->
                                     <h5 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">{{ $tournament->name }}</h5> <!-- Adicionado margem abaixo do título -->
@@ -27,7 +28,9 @@
                                         <a href="{{ route('tournaments.show', $tournament) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                                             Ver Detalhes
                                         </a>
-                                        @if(auth()->check() && !$tournament->hasUserReachedMaxDecks(auth()->user()))
+
+                                        <!-- Verificação para exibir o botão "Participar" apenas se o torneio estiver aberto -->
+                                        @if(auth()->check() && !$tournament->hasUserReachedMaxDecks(auth()->user()) && $tournament->status === 'aberto')
                                         <form method="GET" action="{{ route('tournaments.selectDeck', $tournament->id) }}">
                                             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
                                                 Participar
