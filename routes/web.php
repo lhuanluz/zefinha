@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeckController;
+use App\Http\Controllers\TournamentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +28,28 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::resource('tournaments', TournamentController::class)->except([
+    'edit', 'update'
+]);
+Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->name('tournaments.destroy');
+Route::post('/tournaments/{tournament}/join', [TournamentController::class, 'join'])->name('tournaments.join');
+Route::get('/tournaments/{tournament}/selectDeck', [TournamentController::class, 'selectDeck'])->name('tournaments.selectDeck');
+Route::delete('/tournaments/{tournament}/removeDeck/{deck}', [TournamentController::class, 'removeDeck'])->name('tournaments.removeDeck');
+Route::post('/tournaments/{tournament}/start', [TournamentController::class, 'start'])->name('tournaments.start');
+
+
+
+
+Route::get('/decks/create', [DeckController::class, 'create'])->name('decks.create');
+Route::get('/decks', [DeckController::class, 'index'])->name('decks.index');
+Route::get('/decks/{deck}', [DeckController::class, 'show'])->name('decks.show');
+Route::post('/decks', [DeckController::class, 'store'])->name('decks.store');
+Route::delete('/decks/{deck}', [DeckController::class, 'destroy'])->name('decks.destroy');
+
+
+
+
+
+
+

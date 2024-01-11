@@ -58,4 +58,17 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function decks()
+    {
+        return $this->hasMany(Deck::class);
+    }
+
+    public function tournaments()
+    {
+        return $this->belongsToMany(Tournament::class, 'deck_tournament_user', 'user_id', 'tournament_id')
+            ->withPivot('deck_id')
+            ->withTimestamps();
+    }
+
 }
