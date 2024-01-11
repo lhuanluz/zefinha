@@ -14,9 +14,8 @@ Este projeto é um sistema de gerenciamento de decklists para campeonatos de Mag
 
 - **Front-End**: Livewire para uma interface reativa e dinâmica, integrada ao Laravel.
 - **Back-End**: Laravel, com o Laravel Jetstream para autenticação e gestão de usuários.
-- **Banco de Dados**: MySQL/PostgreSQL.
+- **Banco de Dados**: MySQL.
 - **Autenticação e Gestão de Usuários**: Integrados através do Laravel Jetstream.
-- **Estilos e Componentes**: Tailwind CSS para um design moderno e responsivo.
 
 ## Como Configurar o Projeto
 
