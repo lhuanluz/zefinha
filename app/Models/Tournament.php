@@ -53,4 +53,9 @@ class Tournament extends Model
                 ->count() >= $this->max_decks_per_user;
     }
 
+    public function tournamentRounds()
+    {
+        return $this->hasMany(Round::class);
+    }
+
 }

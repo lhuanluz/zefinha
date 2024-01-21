@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeckController;
 use App\Http\Controllers\TournamentController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,13 +33,12 @@ Route::middleware([
 Route::resource('tournaments', TournamentController::class)->except([
     'edit', 'update'
 ]);
+Route::post('/tournaments/{tournament}/updateRoundPoints', [TournamentController::class, 'updateRoundPoints'])->name('tournaments.updateRoundPoints');
 Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->name('tournaments.destroy');
 Route::post('/tournaments/{tournament}/join', [TournamentController::class, 'join'])->name('tournaments.join');
 Route::get('/tournaments/{tournament}/selectDeck', [TournamentController::class, 'selectDeck'])->name('tournaments.selectDeck');
 Route::delete('/tournaments/{tournament}/removeDeck/{deck}', [TournamentController::class, 'removeDeck'])->name('tournaments.removeDeck');
 Route::post('/tournaments/{tournament}/start', [TournamentController::class, 'start'])->name('tournaments.start');
-
-
 
 
 Route::get('/decks/create', [DeckController::class, 'create'])->name('decks.create');

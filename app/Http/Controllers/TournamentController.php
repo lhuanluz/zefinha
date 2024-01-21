@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use App\Models\Deck;
+use App\Models\UserRoundPoints;
+use Illuminate\Support\Facades\DB;
 
 class TournamentController extends Controller
 {
@@ -48,7 +50,30 @@ class TournamentController extends Controller
 
     public function show(Tournament $tournament)
     {
-        return view('tournaments.show', compact('tournament'));
+        $tournament->load('tournamentRounds');
+
+        // Obter participantes únicos
+        $participants = $tournament->decks->pluck('user')->unique('id');
+
+        // Calcular a soma dos pontos para cada jogador
+        $rankings = collect();
+        foreach ($participants as $participant) {
+            $totalPoints = UserRoundPoints::where('user_id', $participant->id)
+                ->whereHas('round', function ($query) use ($tournament) {
+                    $query->where('tournament_id', $tournament->id);
+                })
+                ->sum('points');
+
+            $rankings->push([
+                'user' => $participant,
+                'totalPoints' => $totalPoints
+            ]);
+        }
+
+        // Ordenar por pontuação, do maior para o menor
+        $rankings = $rankings->sortByDesc('totalPoints');
+
+        return view('tournaments.show', compact('tournament', 'participants', 'rankings'));
     }
 
     public function removeDeck(Tournament $tournament, Deck $deck)
@@ -88,6 +113,14 @@ class TournamentController extends Controller
         // Atualize o status do torneio para "iniciado"
         $tournament->status = 'em_andamento';
         $tournament->save();
+
+        // Criar rodadas para o torneio
+        for ($i = 1; $i <= $tournament->rounds; $i++) {
+            $tournament->rounds()->create([
+                'round_number' => $i,
+                // outras informações da rodada, se necessário
+            ]);
+        }
 
         return redirect()->back()->with('success', 'O torneio foi iniciado com sucesso.');
     }
@@ -131,4 +164,26 @@ class TournamentController extends Controller
 
         return redirect()->route('tournaments.index')->with('success', 'Torneio excluído com sucesso.');
     }
+
+    public function updateRoundPoints(Request $request, Tournament $tournament)
+    {
+        if (auth()->user()->id !== $tournament->user_id || $tournament->status !== 'em_andamento') {
+            return back()->withErrors('Você não tem permissão para realizar esta ação.');
+        }
+
+        $roundId = $request->input('round_id');
+        $pointsData = $request->input('points', []);
+
+        DB::transaction(function () use ($pointsData, $roundId) {
+            foreach ($pointsData as $userId => $point) {
+                UserRoundPoints::updateOrCreate(
+                    ['user_id' => $userId, 'round_id' => $roundId],
+                    ['points' => $point]
+                );
+            }
+        });
+
+        return back()->withSuccess('Pontos atualizados com sucesso.');
+    }
+
 }

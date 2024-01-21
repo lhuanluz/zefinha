@@ -71,4 +71,9 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function roundPoints()
+    {
+        return $this->hasMany(UserRoundPoints::class);
+    }
+
 }
