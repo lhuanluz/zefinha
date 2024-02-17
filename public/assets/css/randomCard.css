@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap');
+
+/* CSS Variables */
+:root {
+    /* Colors */
+    --primary: #b303ff;
+    --secondary: #bae8e8;
+    --tertiary: #e3f6f5;
+    --darkblack: #272343;
+    --black: #2d334a;
+    --white: #fffffe;
+
+    /* Background */
+    --bg-color: var(--tertiary);
+    --cardbg: var(--black);
+
+    /* Fonts */
+    --heading-font: 'Muli', sans-serif;
+    --body-font: 'Muli', sans-serif;
+    --textColor: var(--darkblack);
+    --cardTextColor: var(--white);
+
+    /* Font sizes */
+    --baseFontSize: 1rem;
+    --smallFontSize: 0.75rem;
+    --extraSmallFontSize: 0.512rem;
+    --mediumFontSize: 1.25rem;
+    --largeFontSize: 1.5rem;
+    --extraLargeFontSize: 4rem;
+    --doubleXLFontSize: 5rem;
+    --heading-1: 3rem;
+    --heading-2: 2.5rem;
+    --heading-3: 2rem;
+    --heading-4: 1.5rem;
+    --heading-5: var(--baseFontSize);
+    --heading-6: var(--smallFontSize);
+
+    /* Links */
+    --linkColor: var(--primary);
+    --linkHoverColor: var(--primary);
+
+    /* Elevation */
+    --elevation-0: inset 0 7px 9 -7px rgba(0, 0, 0, 0.7);
+    --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --elevation-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    --elevation-3: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    --elevation-4: 0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+    --elevation-5: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+    --massiveShadow: inset 0 3px 0 0 rgba(110, 110, 110, 1),
+    0 7px 3px 3px rgba(0, 0, 0, 0.55), 0 10px 10px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* basic reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove list style */
+ul {
+    list-style: none;
+}
+
+/* Reset forms and buttons */
+input,
+textarea,
+select,
+button {
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+}
+
+input,
+textarea {
+    border: 1px solid var(--gray-3);
+}
+
+button {
+    border: none;
+    background-color: transparent;
+}
+
+button * {
+    pointer-events: none;
+}
+
+/* Easy responsive for media elements */
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* Hidden */
+[hidden] {
+    display: none !important;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--body-font);
+    color: var(--textColor);
+    background: var(--bg-color);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--heading-font);
+    line-height: 1.15;
+    font-weight: bold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+nav {
+    font-family: var(--heading-font);
+}
+
+h1 {
+    font-size: var(--heading-1);
+    letter-spacing: 0.2rem;
+}
+h2 {
+    font-size: var(--heading-2);
+    letter-spacing: 0.2rem;
+}
+h3 {
+    font-size: var(--heading-3);
+    letter-spacing: 0.2rem;
+}
+h4 {
+    font-size: var(--heading-4);
+}
+h5 {
+    font-size: var(--heading-5);
+}
+h6 {
+    font-size: var(--heading-6);
+}
+p {
+    font-family: var(--body-font);
+    line-height: 1.75rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--linkColor);
+}
+
+a:hover {
+    color: var(--linkHoverColor);
+    text-decoration: underline;
+}
+
+/* App Styles */
+.container {
+    max-width: 800px;
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 0.5rem;
+    background: var(--secondary);
+    cursor: pointer;
+}
+
+.btn:hover {
+    text-decoration: underline;
+}
+
+.app__title {
+    text-align: center;
+    margin-bottom: 1.25rem;
+    padding-top: 1rem;
+    font-weight: 900;
+}
+
+.cardInfo {
+    display: grid;
+    width: 100%;
+    padding: 0 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+    justify-items: center;
+    grid-gap: 1.25rem;
+}
+
+/* Card image flip */
+.flip-card {
+    background-color: transparent;
+    width: 250px;
+    height: 348px;
+    justify-self: center;
+
+    border-radius: 13px;
+    perspective: 1000px; /*for 3d effect*/
+}
+
+.flip-card img {
+    width: 100%;
+    height: 100%;
+}
+
+.flip-card-inner {
+    /* containter to position front and back */
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 13px;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    /* Position front and back */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    border-radius: 13px;
+}
+
+.cardInfo__img,
+.cardInfo__img--back {
+    border-radius: 13px;
+    box-shadow: var(--elevation-3);
+}
+
+/* Style front side (fallback if image is missing) */
+.flip-card-front {
+    background-color: var(--tertiary);
+}
+
+/* Style back side */
+.flip-card-back {
+    background-color: var(--tertiary);
+    transform: rotateY(180deg);
+}
+
+.cardDetails {
+    width: 100%;
+    box-shadow: var(--elevation-2);
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
+    border-top: 5px solid var(--primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--cardbg);
+    color: var(--cardTextColor);
+}
+
+.cardDetails__name {
+    font-size: var(--heading-4);
+}
+
+.cardDetails__oracleTextBtn {
+    background: none;
+    padding: 0;
+}
+
+.cardDetails__oracleTextBtn svg {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--cardTextColor);
+}
+
+.cardDetails__oracleTextBtn:hover {
+    text-decoration: underline;
+}
+
+.cardDetails__oracleTextP {
+    display: none;
+}
+
+.cardDetails__oracleTextP--show {
+    display: block;
+}
+
+.cardDetails__randomCardBtn {
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 5px;
+    color: var(--black);
+}
+
+.footer {
+    background: var(--cardbg);
+    color: var(--cardTextColor);
+    width: 100vw;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.footer__hr {
+    border: 0;
+    height: 1px;
+    background: var(--white);
+    background-image: linear-gradient(
+        to right,
+        var(--black),
+        var(--white),
+        var(--black)
+    );
+}
+
+.footer__disclaimer {
+    font-size: var(--smallFontSize);
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+/* Medium Screens/Tablets */
+@media (min-width: 640px) {
+    .flip-card {
+        width: 325px;
+        height: 454px;
+    }
+}
+
+/* Large Screens/Laptops */
+@media (min-width: 768px) {
+    .cardInfo {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .flip-card {
+        width: 344px;
+        height: 480px;
+    }
+
+    .cardDetails {
+        width: 344px;
+        min-height: 480px;
+    }
+}
+
+/* XL Screens/Widescreen */
+@media (min-width: 1024px) {
+}

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeckController;
 use App\Http\Controllers\TournamentController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -25,10 +26,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+Route::get('/fetch-deck-list/{commanderName}', [DashboardController::class, 'fetchDeckList']);
 
 Route::resource('tournaments', TournamentController::class)->except([
     'edit', 'update'
@@ -46,6 +47,7 @@ Route::get('/decks', [DeckController::class, 'index'])->name('decks.index');
 Route::get('/decks/{deck}', [DeckController::class, 'show'])->name('decks.show');
 Route::post('/decks', [DeckController::class, 'store'])->name('decks.store');
 Route::delete('/decks/{deck}', [DeckController::class, 'destroy'])->name('decks.destroy');
+
 
 
 

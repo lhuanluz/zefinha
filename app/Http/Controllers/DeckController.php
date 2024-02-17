@@ -267,6 +267,25 @@ class DeckController extends Controller
         return $data->image_uris->art_crop ?? null;
     }
 
+    public function getDeckCommanderCard($cardName)
+    {
+        $client = new Client();
+        $response = $client->get("https://api.scryfall.com/cards/named?exact=" . urlencode($cardName));
+
+        $data = json_decode($response->getBody());
+        // Verifica se a carta é double faced e retorna a imagem da primeira face
+        if (isset($data->card_faces)) {
+            if($data->card_faces[0]->image_uris->png){
+                return $data->card_faces[0]->image_uris->png;
+            }else{
+                return $data->card_faces[1]->image_uris->png;
+            }
+
+        }
+
+        return $data->image_uris->png ?? null;
+    }
+
     public function destroy($id)
     {
         $deck = Deck::findOrFail($id);
