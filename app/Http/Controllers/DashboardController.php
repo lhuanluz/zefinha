@@ -23,32 +23,12 @@ class DashboardController extends Controller
         return view('dashboard');
     }
 
-    private function extractPriceFromHtml($html)
-    {
-        // Expressão regular para encontrar o preço da carta
-        $pattern = '/<td class="min products-table__price[^>]*>(.*?)<\/b>/s';
-
-        // Executar a expressão regular
-        preg_match($pattern, $html, $matches);
-
-        // Se houver uma correspondência encontrada
-        if (!empty($matches[1])) {
-            // Limpar a correspondência para obter apenas o preço
-            $price = strip_tags($matches[1]);
-
-            return $price;
-        }
-
-        // Se não houver correspondência, retornar null
-        return null;
-    }
-
     public function fetchDeckList($commanderName)
     {
         $client = new Client();
         // Substitui espaços e vírgulas por hífens, e remove caracteres especiais
         $formattedCommanderName = preg_replace('/[ ,]+/', '-', $commanderName);
-        $url = 'https://edhrec.com/average-decks/' . strtolower(urlencode($formattedCommanderName)) . '/budget';
+        $url = 'https://edhrec.com/average-decks/' . strtolower(urlencode($formattedCommanderName)) . '';
 
         try {
             $response = $client->request('GET', $url);
@@ -70,4 +50,5 @@ class DashboardController extends Controller
             ], 500);
         }
     }
+
 }

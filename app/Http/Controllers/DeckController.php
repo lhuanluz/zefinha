@@ -236,9 +236,15 @@ class DeckController extends Controller
                 $dadosCarta['type_line'] = $data['type_line'];
             }else{
                 $dadosCarta['nome'] = $data['card_faces'][0]['name'];
-                $dadosCarta['imagem'] = $data['card_faces'][0]['image_uris']['normal'];
+                if (isset($data['card_faces'][0]['image_uris'])){
+                    $dadosCarta['imagem'] = $data['card_faces'][0]['image_uris']['normal'];
+
+                }else{
+                    $dadosCarta['imagem'] = "";
+                }
                 $dadosCarta['mana_cost'] = $data['card_faces'][0]['mana_cost'];
                 $dadosCarta['type_line'] = $data['card_faces'][0]['type_line'];
+
             }
         } elseif (isset($data['name'])) {
             $dadosCarta['nome'] = $data['name'];

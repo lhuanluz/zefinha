@@ -24,6 +24,7 @@
                             <p class="cardDetails__type">Tipo</p>
                             <p class="cardDetails__cost">Custo de Mana</p>
                             <p class="cardDetails__colorId">Identidade de Cor</p>
+                            <p class="cardDetails__rank"><span class="rank-value">--</span></p>
                             <a class="cardDetails__edhRec" target="_blank" href="https://edhrec.com/">EDH Rec</a>
                             <div class="cardDetails__oracleText">
 
@@ -56,6 +57,7 @@
     const edhRec = document.querySelector('.cardDetails__edhRec');
     const randomBtn = document.querySelector('.cardDetails__randomCardBtn');
     const flipCard = document.querySelector('.flip-card');
+    const rank = document.querySelector('.cardDetails__rank .rank-value');
     const SCRYFALL_URL = 'https://api.scryfall.com/cards/random?q=is%3Acommander';
 
     // Display promise errors
@@ -66,6 +68,27 @@
 
     document.getElementById('generateDeckListBtn').addEventListener('click', fetchAndDisplayDeckList);
 
+    const fetchEDHRECRank = async (commanderName) => {
+        const sanitizedCommanderName = replaceSpecialCharacters(commanderName);
+        const url = `https://edhrec.com/commanders/${encodeURIComponent(sanitizedCommanderName)}`;
+
+        try {
+            const response = await fetch(url);
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const rankElement = doc.querySelector('.CardLabel_label__iAM7T');
+
+            if (rankElement) {
+                return rankElement.textContent.trim();
+            } else {
+                return 'Rank indisponível';
+            }
+        } catch (error) {
+            console.error('Erro ao buscar o rank no EDHREC:', error);
+            return 'Erro ao buscar o rank';
+        }
+    };
 
     async function fetchAndDisplayDeckList() {
         const commanderName = name.textContent; // Certifique-se de que isso captura o nome correto do comandante.
@@ -104,6 +127,7 @@
     };
 
     const showCard = async (card) => {
+        // Exibir os detalhes do comandante
         img.src = card.image_uris.png;
         name.textContent = card.name;
         type.textContent = card.type_line;
@@ -111,6 +135,10 @@
         colorId.textContent = `Identidade de cor: ${card.color_identity.join('')}`;
         edhRec.href = card.related_uris.edhrec;
 
+        // Buscar e exibir o rank do comandante no EDHREC
+        const commanderName = card.name;
+        const edhrecRank = await fetchEDHRECRank(commanderName);
+        rank.textContent = edhrecRank;
     };
 
     const getNewCard = async () => {
@@ -124,6 +152,13 @@
         flipCard.classList.add('flipped');
         await getNewCard();
     }
+
+    const replaceSpecialCharacters = (commanderName) => {
+        return commanderName
+            .toLowerCase()          // Converter todo o texto para minúsculas
+            .replace(/[ ,]+/g, '-') // Substituir espaços e vírgulas por hífens
+            .replace(/-+/g, '-');   // Remover hífens consecutivos
+    };
 
     const cardImageLoaded = () => {
         flipCard.classList.remove('flipped');
